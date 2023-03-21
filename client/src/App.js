@@ -20,9 +20,20 @@ function App() {
     setBirdSightings([...birdSightings, sighting]);
   }
 
-  // const updateSighting = (id) => {
-  //   setBirdSightings
-  // }
+  const updateSighting = (id) => {
+    const newSightings = [...birdSightings];
+
+    getSightings(id)
+      .then((sighting) => {
+        for (let i = 0; i < newSightings.length; i++) {
+          if (newSightings[i]._id === id) {
+            newSightings[i] = sighting;
+          }
+      }
+
+      setBirdSightings(newSightings);
+    });
+  };
 
   const removeSighting = (id) => {
     const sightingsToKeep = birdSightings.filter(sighting => sighting._id !== id)
@@ -32,7 +43,7 @@ function App() {
   return (
     <>
       <SightingsForm addSighting={addSighting} />
-      <SightingsGrid sightings={birdSightings} removeSighting={removeSighting} />
+      <SightingsGrid sightings={birdSightings} removeSighting={removeSighting} updateSighting={updateSighting}/>
     </>
   );
 }
